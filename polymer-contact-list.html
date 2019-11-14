@@ -1,0 +1,74 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/notification-icons.html">
+<link rel="import" href="../iron-icons/social-icons.html">
+
+<dom-module id="polymer-contact-list">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            div {
+                display: inline-grid;
+            }
+        </style>
+        <h2>Contact list</h2>
+        <dom-repeat items="[[contacts]]" as="contact">
+            <template>
+                <div>
+                    <paper-card>
+                        <p><img src="[[contact.picture.large]]"></p>
+                        <p>
+                            <iron-icon icon="social:person"></iron-icon>
+                            [[contact.name.title]] [[contact.name.first]] [[contact.name.last]]
+                        </p>
+                        <p>
+                            <iron-icon icon="social:public"></iron-icon>
+                            [[contact.email]]
+                        </p>
+                        <p>
+                            <iron-icon icon="notification:phone-in-talk"></iron-icon>
+                            [[contact.phone]]
+                        </p>
+                    </paper-card>
+                </div>
+            </template>
+        </dom-repeat>
+    </template>
+
+    <script>
+        /**
+         * `polymer-contact-list`
+         *
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class PolymerContactList extends Polymer.Element {
+            static get is() {
+                return 'polymer-contact-list';
+            }
+
+            static get properties() {
+                return {
+                    contacts: {
+                        type: Array
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                fetch('https://randomuser.me/api/?results=50')
+                    .then(response => response.json())
+                    .then(payload => this.contacts = [...payload.results]);
+            }
+        }
+
+        window.customElements.define(PolymerContactList.is, PolymerContactList);
+    </script>
+</dom-module>

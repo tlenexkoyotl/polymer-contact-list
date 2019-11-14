@@ -1,0 +1,36 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="polymer-contact-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]!</h2>
+  </template>
+
+  <script>
+    /**
+     * `polymer-contact-list`
+     * 
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class PolymerContactList extends Polymer.Element {
+      static get is() { return 'polymer-contact-list'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'polymer-contact-list'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(PolymerContactList.is, PolymerContactList);
+  </script>
+</dom-module>
