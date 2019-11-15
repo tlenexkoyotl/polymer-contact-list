@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
@@ -10,21 +10,40 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
+    <link rel="import" href="../../paper-toast/paper-toast.html">
     <link rel="import" href="../polymer-contact-list.html">
 
     <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles">
-      </style>
+        <style is="custom-style" include="demo-pages-shared-styles">
+        </style>
     </custom-style>
-  </head>
-  <body>
-    <div class="vertical-section-container centered">
-      <h3>Basic polymer-contact-list demo</h3>
-      <demo-snippet>
+</head>
+<body>
+<div class="vertical-section-container centered">
+    <h3>Basic polymer-contact-list demo</h3>
+    <demo-snippet>
         <template>
-          <polymer-contact-list></polymer-contact-list>
+            <dom-bind id="demo">
+                <template>
+                    <polymer-contact-list on-contact-list-loaded="_contactListReady"></polymer-contact-list>
+                    <paper-toast id="toast" text="[[message]]"></paper-toast>
+                </template>
+            </dom-bind>
         </template>
-      </demo-snippet>
-    </div>
-  </body>
+        <script>
+            const demo = document.querySelector('#demo');
+
+            demo._contactListReady = event => {
+                demo.message = JSON.stringify({
+                    event: 'contact-list-loaded',
+                    detail: event.detail
+                });
+
+                document.querySelector('#toast').open();
+            };
+        </script>
+    </demo-snippet>
+</div>
+</body>
 </html>

@@ -14,16 +14,24 @@
             div {
                 display: inline-grid;
             }
+
+            img {
+                height: 25px;
+            }
         </style>
         <h2>Contact list</h2>
         <dom-repeat items="[[contacts]]" as="contact">
             <template>
                 <div>
-                    <paper-card>
-                        <p><img src="[[contact.picture.large]]"></p>
+                    <paper-card image="[[contact.picture.large]]">
                         <p>
                             <iron-icon icon="social:person"></iron-icon>
                             [[contact.name.title]] [[contact.name.first]] [[contact.name.last]]
+                        </p>
+                        <p>
+                            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                                 alt="github">
+                            [[contact.login.username]]
                         </p>
                         <p>
                             <iron-icon icon="social:public"></iron-icon>
@@ -65,7 +73,13 @@
                 super.connectedCallback();
                 fetch('https://randomuser.me/api/?results=50')
                     .then(response => response.json())
-                    .then(payload => this.contacts = [...payload.results]);
+                    .then(payload => {
+                        this.contacts = [...payload.results];
+
+                        this.dispatchEvent(new CustomEvent('contact-list-loaded', {
+                            detail: this.contacts
+                        }));
+                    });
             }
         }
 
